@@ -1,0 +1,22 @@
+# ninja log v7
+1	19	1772529903582705059	CMakeFiles/LittleTriangle.dir/src/main.cpp.o	6f20f373dd97a9d2
+1	76	1772529903583708945	CMakeFiles/LittleTriangle.dir/dependencies/glad/src/glad.c.o	e4afe3bbcd353e98
+76	115	1772529903657704160	LittleTriangle	c06e1d5784f9815a
+1	23	1772529949534153391	CMakeFiles/LittleTriangle.dir/src/main.cpp.o	6f20f373dd97a9d2
+23	62	1772529949556153126	LittleTriangle	c06e1d5784f9815a
+1	32	1772531051092791614	CMakeFiles/LittleTriangle.dir/src/main.cpp.o	6f20f373dd97a9d2
+32	74	1772531051124607353	LittleTriangle	c06e1d5784f9815a
+0	34	1772533762011265888	CMakeFiles/LittleTriangle.dir/src/main.cpp.o	6f20f373dd97a9d2
+34	78	1772533762045265457	LittleTriangle	c06e1d5784f9815a
+1	34	1772533842609246397	CMakeFiles/LittleTriangle.dir/src/main.cpp.o	6f20f373dd97a9d2
+35	77	1772533842643245968	LittleTriangle	c06e1d5784f9815a
+0	36	1772533878892788520	CMakeFiles/LittleTriangle.dir/src/main.cpp.o	6f20f373dd97a9d2
+36	77	1772533878929788053	LittleTriangle	c06e1d5784f9815a
+1	35	1772536173114273460	CMakeFiles/LittleTriangle.dir/src/main.cpp.o	6f20f373dd97a9d2
+35	79	1772536173148273039	LittleTriangle	c06e1d5784f9815a
+1	36	1772538249742100206	CMakeFiles/LittleTriangle.dir/src/main.cpp.o	6f20f373dd97a9d2
+36	81	1772538249777099750	LittleTriangle	c06e1d5784f9815a
+0	35	1772538452052469159	CMakeFiles/LittleTriangle.dir/src/main.cpp.o	6f20f373dd97a9d2
+35	78	1772538452087468705	LittleTriangle	c06e1d5784f9815a
+1	37	1772538591391661107	CMakeFiles/LittleTriangle.dir/src/main.cpp.o	6f20f373dd97a9d2
+37	82	1772538591427660640	LittleTriangle	c06e1d5784f9815a

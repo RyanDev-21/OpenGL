@@ -1,0 +1,3 @@
+/home/sekiro/MyStuff/playingWithOpenGl/build/CMakeFiles/LittleTriangle.dir
+/home/sekiro/MyStuff/playingWithOpenGl/build/CMakeFiles/edit_cache.dir
+/home/sekiro/MyStuff/playingWithOpenGl/build/CMakeFiles/rebuild_cache.dir
