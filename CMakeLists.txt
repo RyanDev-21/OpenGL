@@ -8,23 +8,33 @@ find_package(glfw3 REQUIRED)
 find_package(GLEW REQUIRED)
 find_package(glm REQUIRED)
 
+file(COPY "${CMAKE_CURRENT_SOURCE_DIR}/src/triangle"
+    DESTINATION "${CMAKE_BINARY_DIR}/shaders"
+)
+file(COPY "${CMAKE_CURRENT_SOURCE_DIR}/src/rectangle"
+    DESTINATION "${CMAKE_BINARY_DIR}/shaders"
+)
 
 add_executable(LittleTriangle
-    src/main.cpp
+    src/main.c
     dependencies/glad/src/glad.c
+    src/shader/shader.c
+    dependencies/imageLib/stb_image.c
 )
 
 target_sources(LittleTriangle
     PRIVATE
-    src/main.cpp
+    src/main.c
+    src/shader/shader.c
 )
 
 target_include_directories(
     LittleTriangle
     PRIVATE
     dependencies/glad/include
+    dependencies/imageLib/
 )
 
-target_link_libraries(LittleTriangle glfw)
+target_link_libraries(LittleTriangle glfw m)
 
 
