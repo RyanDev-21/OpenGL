@@ -20,12 +20,12 @@ add_executable(LittleTriangle
     dependencies/glad/src/glad.c
     src/shader/shader.c
     dependencies/imageLib/stb_image.c
+    src/camera/camera.c
 )
 
 target_sources(LittleTriangle
     PRIVATE
     src/main.c
-    src/shader/shader.c
 )
 
 target_include_directories(

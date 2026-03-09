@@ -1,9 +1,13 @@
 #include "../dependencies/glad/include/glad/glad.h"
 #include "../dependencies/imageLib/stb_image.h"
+#include "camera/camera.h"
 #include "shader/shader.h"
 #include <GL/gl.h>
 #include <GLFW/glfw3.h>
+#include <cglm/cam.h>
 #include <cglm/cglm.h>
+#include <cglm/util.h>
+#include <cglm/vec3.h>
 #include <stdbool.h>
 #include <stdio.h>
 #include <stdlib.h>
@@ -13,11 +17,17 @@ int height = 600;
 void processInput(GLFWwindow *window);
 void framebuffer_callback(GLFWwindow *window, int chwidth, int chheight);
 
+void cursor_callback(GLFWwindow *window, double xpos, double ypos);
 float mixValue = 0.2f;
-vec3 cubePositions[] = {{0.0f, 0.0f, 0.0f},     {2.0f, 5.0f, -15.0f}, {-1.5f, -2.2f, -2.5f},
-                        {-3.8f, -2.0f, -12.3f}, {2.4f, -0.4f, -3.5f}, {-1.7f, 3.0f, -7.5f},
-                        {1.3f, -2.0f, -2.5f},   {1.5f, 2.0f, -2.5f},  {1.5f, 0.2f, -1.5f},
-                        {-1.3f, 1.0f, -1.5f}};
+vec3 cubePositions[] = {
+    {0.0f, 0.0f, -1.0f},  {2.0f, 5.0f, -15.0f}, {-1.5f, -2.2f, -2.5f},  {-3.8f, -2.0f, -12.3f},
+    {2.4f, -0.4f, -3.5f}, {-1.7f, 3.0f, -7.5f}, {1.3f, -2.0f, -2.5f},   {1.5f, 2.0f, -2.5f},
+    {1.5f, 0.2f, -1.5f},  {-1.3f, 1.0f, -1.5f}, {-1.4f, -1.0f, -15.3f}, {-2.4f, -2.0f, -10.4f},
+};
+vec3 camPos = {0.0f, 0.0f, 3.0f};
+vec3 origin = {0.0f, 0.0f, -1.0f};
+vec3 up = {0.0f, 1.0f, 0.0f};
+
 int main() {
     GLFWwindow *window;
     if (!glfwInit()) {
@@ -35,8 +45,19 @@ int main() {
         printf("failed to load the glad\n");
         return -1;
     }
-    glfwSetFramebufferSizeCallback(window, framebuffer_callback);
+    float camSpd = 0.3f;
 
+    CusCamera *cam;
+    cam = camera_create(camPos, origin, width, height, camSpd);
+    camera_set_fov(cam, 50.0f);
+    glfwSetWindowUserPointer(window, cam);
+    glfwSetFramebufferSizeCallback(window, framebuffer_callback);
+    glfwSetInputMode(window, GLFW_CURSOR, GLFW_CURSOR_DISABLED);
+    glfwSetCursorPosCallback(window, camera_cursor_callback);
+    glfwSetScrollCallback(window, camera_scroll_callback);
+    camera_set_scrollLimit(cam, 30.0f);
+    camera_set_sen(cam, 0.4f);
+    camera_set_Spd(cam, 0.8f);
     float vertices[] = {-0.5f, -0.5f, -0.5f, 0.0f, 0.0f, 0.5f,  -0.5f, -0.5f, 1.0f, 0.0f,
                         0.5f,  0.5f,  -0.5f, 1.0f, 1.0f, 0.5f,  0.5f,  -0.5f, 1.0f, 1.0f,
                         -0.5f, 0.5f,  -0.5f, 0.0f, 1.0f, -0.5f, -0.5f, -0.5f, 0.0f, 0.0f,
@@ -71,7 +92,8 @@ int main() {
     glBindBuffer(GL_ARRAY_BUFFER, VBO);
     glBufferData(GL_ARRAY_BUFFER, sizeof(vertices), vertices, GL_STATIC_DRAW);
     /* glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, EBO); */
-    /* glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(indexes), indexes, GL_STATIC_DRAW); */
+    /* glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(indexes), indexes,
+     * GL_STATIC_DRAW); */
     glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 5 * sizeof(float), (void *)0);
     glVertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE, 5 * sizeof(float), (void *)(3 * sizeof(float)));
     glEnableVertexAttribArray(0);
@@ -132,6 +154,8 @@ int main() {
 
     while (!glfwWindowShouldClose(window)) {
         processInput(window);
+        camera_processInput(cam, window);
+        camera_update(cam);
         glEnable(GL_DEPTH_TEST);
         glClearColor(0.2f, 0.3f, 0.3f, 1.0f);
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
@@ -140,32 +164,18 @@ int main() {
         glActiveTexture(GL_TEXTURE1);
         glBindTexture(GL_TEXTURE_2D, texture2);
         shader_use(s);
-        // model space
-        /* mat4 model = GLM_MAT4_IDENTITY_INIT; */
-        /* vec3 Xaxis = {1.0f, 0.0f, 0.0f}; */
-        /* glm_rotate(model, (float)glfwGetTime() * glm_rad(-55.0f), Xaxis); */
-        /* unsigned int modelLoc = glGetUniformLocation(s->ID, "model"); */
-        /* glUniformMatrix4fv(modelLoc, 1, GL_FALSE, (void *)model); */
-        // view space we want the camera to do up so we do the negative on - zaxis(right-handed
-        // system)
-        mat4 view = GLM_MAT4_IDENTITY_INIT;
-        vec3 Viewaxis = {0.0f, 0.0f, -10.0f};
-        glm_translate(view, Viewaxis);
-        mat4 projection;
-        glm_perspective(glm_rad(45.5f), (float)width / (float)height, 0.1f, 100.0f, projection);
-        // maybe define the funciton to set the matrix
         unsigned int viewLoc = glGetUniformLocation(s->ID, "view");
-        glUniformMatrix4fv(viewLoc, 1, GL_FALSE, (void *)view);
+        glUniformMatrix4fv(viewLoc, 1, GL_FALSE, (void *)cam->view);
         unsigned int projectionLoc = glGetUniformLocation(s->ID, "projection");
-        glUniformMatrix4fv(projectionLoc, 1, GL_FALSE, (void *)projection);
-        shader_setFloat(s, "opacity", mixValue);
+        glUniformMatrix4fv(projectionLoc, 1, GL_FALSE, (void *)cam->projection);
+        shader_setFloat(s, "opacity", sin(glfwGetTime()) * sin(glfwGetTime()));
         glBindVertexArray(VAO);
-        for (unsigned int i = 0; i < 10; i++) {
+        for (unsigned int i = 0; i < 12; i++) {
             mat4 model = GLM_MAT4_IDENTITY_INIT;
             glm_translate(model, cubePositions[i]);
             float angle = 20.0f * (i + 1);
-            vec3 move = {1.0f, 0.3f, 0.5f};
-            glm_rotate(model, (float)glfwGetTime() * glm_rad(angle), move);
+            vec3 move = {0.0f, 1.0f, 0.0f};
+            glm_rotate(model, glm_rad(angle * (float)glfwGetTime()), move);
             unsigned int modelLoc = glGetUniformLocation(s->ID, "model");
             glUniformMatrix4fv(modelLoc, 1, GL_FALSE, (void *)model);
             glDrawArrays(GL_TRIANGLES, 0, 36);
@@ -176,12 +186,14 @@ int main() {
     glDeleteVertexArrays(1, &VAO);
     glDeleteBuffers(1, &VBO);
     glDeleteBuffers(1, &EBO);
+    free(cam);
     glfwTerminate();
     free(s);
     return 0;
 };
 
 void processInput(GLFWwindow *window) {
+
     if (glfwGetKey(window, GLFW_KEY_ESCAPE) == GLFW_PRESS) {
         glfwSetWindowShouldClose(window, true);
     }
@@ -191,16 +203,12 @@ void processInput(GLFWwindow *window) {
             mixValue = 0.0f;
         }
     }
-    if (glfwGetKey(window, GLFW_KEY_K) == GLFW_PRESS) {
-        mixValue += 0.01f;
-        if (mixValue > 1.0f) {
-            mixValue = 1.0f;
-        }
-    }
 };
 
 void framebuffer_callback(GLFWwindow *window, int chwidth, int chheight) {
     glViewport(0, 0, chwidth, chheight);
     width = chwidth;
     height = chheight;
+    CusCamera *cam = (CusCamera *)glfwGetWindowUserPointer(window);
+    cameraViewPortProcess(cam, chwidth, chheight);
 };

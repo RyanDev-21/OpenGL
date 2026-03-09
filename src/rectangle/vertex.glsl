@@ -6,7 +6,7 @@ out vec2 textCoord;
 uniform mat4 model;
 uniform mat4 view;
 uniform mat4 projection;
-
+uniform int direction;
 void main(){
     gl_Position=projection*view*model*vec4(vetPos,1.0);
     textCoord=texCoor;

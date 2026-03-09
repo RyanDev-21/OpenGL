@@ -85,6 +85,15 @@ build CMakeFiles/LittleTriangle.dir/dependencies/imageLib/stb_image.c.o: C_COMPI
   OBJECT_FILE_DIR = CMakeFiles/LittleTriangle.dir/dependencies/imageLib
   TARGET_SUPPORT_DIR = CMakeFiles/LittleTriangle.dir
 
+build CMakeFiles/LittleTriangle.dir/src/camera/camera.c.o: C_COMPILER__LittleTriangle_unscanned_Debug /home/sekiro/MyStuff/playingWithOpenGl/src/camera/camera.c || cmake_object_order_depends_target_LittleTriangle
+  CONFIG = Debug
+  DEP_FILE = CMakeFiles/LittleTriangle.dir/src/camera/camera.c.o.d
+  FLAGS = -g
+  INCLUDES = -I/home/sekiro/MyStuff/playingWithOpenGl/dependencies/glad/include -I/home/sekiro/MyStuff/playingWithOpenGl/dependencies/imageLib
+  OBJECT_DIR = CMakeFiles/LittleTriangle.dir
+  OBJECT_FILE_DIR = CMakeFiles/LittleTriangle.dir/src/camera
+  TARGET_SUPPORT_DIR = CMakeFiles/LittleTriangle.dir
+
 
 # =============================================================================
 # Link build statements for EXECUTABLE target LittleTriangle
@@ -93,7 +102,7 @@ build CMakeFiles/LittleTriangle.dir/dependencies/imageLib/stb_image.c.o: C_COMPI
 #############################################
 # Link the executable LittleTriangle
 
-build LittleTriangle: C_EXECUTABLE_LINKER__LittleTriangle_Debug CMakeFiles/LittleTriangle.dir/src/main.c.o CMakeFiles/LittleTriangle.dir/dependencies/glad/src/glad.c.o CMakeFiles/LittleTriangle.dir/src/shader/shader.c.o CMakeFiles/LittleTriangle.dir/dependencies/imageLib/stb_image.c.o | /usr/lib/libglfw.so.3.4
+build LittleTriangle: C_EXECUTABLE_LINKER__LittleTriangle_Debug CMakeFiles/LittleTriangle.dir/src/main.c.o CMakeFiles/LittleTriangle.dir/dependencies/glad/src/glad.c.o CMakeFiles/LittleTriangle.dir/src/shader/shader.c.o CMakeFiles/LittleTriangle.dir/dependencies/imageLib/stb_image.c.o CMakeFiles/LittleTriangle.dir/src/camera/camera.c.o | /usr/lib/libglfw.so.3.4
   CONFIG = Debug
   DEP_FILE = CMakeFiles/LittleTriangle.dir/link.d
   FLAGS = -g
