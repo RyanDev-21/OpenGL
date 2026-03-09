@@ -5,7 +5,6 @@
             "name": "CMake Debug",
             "type": "cppdbg",
             "request": "launch",
-            // This automatically points to the output of your CMake build
             "program": "${command:cmake.launchTargetPath}",
             "args": [],
             "stopAtEntry": false,
@@ -25,7 +24,7 @@
                     "ignoreFailures": true
                 }
             ],
-            // Ensures the code compiles before the debugger starts
+            
             "preLaunchTask": "CMake: build"
         }
     ]
