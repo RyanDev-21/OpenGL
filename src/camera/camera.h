@@ -25,7 +25,7 @@ typedef struct {
     float scrollLimit;
     float sen;
 } CusCamera;
-CusCamera *camera_create(vec3 camPos, vec3 origin, float width, float height, float camSpd);
+CusCamera *camera_create(vec3 camPos, vec3 origin, float width, float height);
 void camera_update(CusCamera *cam);
 void camera_set_fov(CusCamera *cam, float fov);
 void camera_set_scrollLimit(CusCamera *cam, float scrollLimit);

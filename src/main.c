@@ -45,10 +45,9 @@ int main() {
         printf("failed to load the glad\n");
         return -1;
     }
-    float camSpd = 0.3f;
 
     CusCamera *cam;
-    cam = camera_create(camPos, origin, width, height, camSpd);
+    cam = camera_create(camPos, origin, width, height);
     camera_set_fov(cam, 50.0f);
     glfwSetWindowUserPointer(window, cam);
     glfwSetFramebufferSizeCallback(window, framebuffer_callback);

@@ -79,3 +79,6 @@
 155	181	1773062399991549093	LittleTriangle	ef26983e6abd3e0f
 2	107	1773062427178196669	CMakeFiles/LittleTriangle.dir/src/main.c.o	a9914c72d53fb55c
 107	132	1773062427284195296	LittleTriangle	ef26983e6abd3e0f
+1	124	1773063488855558428	CMakeFiles/LittleTriangle.dir/src/main.c.o	a9914c72d53fb55c
+2	167	1773063488856605224	CMakeFiles/LittleTriangle.dir/src/camera/camera.c.o	17fc45600085dd23
+167	191	1773063489020556318	LittleTriangle	ef26983e6abd3e0f

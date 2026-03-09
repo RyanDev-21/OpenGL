@@ -12,10 +12,11 @@ float cal_deltaFrame(CusCamera *cam) {
 }
 
 void process_yaw(CusCamera *cam, GLFWwindow *window);
-CusCamera *camera_create(vec3 camPosV, vec3 origin, float width, float height, float camSpd) {
+CusCamera *camera_create(vec3 camPosV, vec3 origin, float width, float height) {
     CusCamera *cam = malloc(sizeof(CusCamera));
+    cam->camSpd = 0.3f;
     float deltaFrame = cal_deltaFrame(cam);
-    float camSpeed = camSpd * deltaFrame;
+    float camSpeed = cam->camSpd * deltaFrame;
 
     cam->yaw = -90.0f;
     cam->fov = 20.0f;
